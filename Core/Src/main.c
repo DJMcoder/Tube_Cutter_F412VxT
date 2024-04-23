@@ -154,7 +154,7 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  if (htim == &htim5) {
+  if (htim == &htim2) {
 	  PCNC_Servo_Unlock(cutter);
   }
   else if (htim == &htim4 )

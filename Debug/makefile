@@ -60,8 +60,8 @@ all: main-build
 main-build: Tube_Cutter_F412VxT.elf secondary-outputs
 
 # Tool invocations
-Tube_Cutter_F412VxT.elf Tube_Cutter_F412VxT.map: $(OBJS) $(USER_OBJS) C:\Users\Caltech\ Racing\STM32CubeIDE\workspace_1.15.0\Tube_Cutter_F412VxT\STM32F412VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Tube_Cutter_F412VxT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Caltech Racing\STM32CubeIDE\workspace_1.15.0\Tube_Cutter_F412VxT\STM32F412VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Tube_Cutter_F412VxT.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Tube_Cutter_F412VxT.elf Tube_Cutter_F412VxT.map: $(OBJS) $(USER_OBJS) C:\Users\Ethan\ Barajas\Documents\GitHub\Tube_Cutter_F412VxT\STM32F412VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Tube_Cutter_F412VxT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Ethan Barajas\Documents\GitHub\Tube_Cutter_F412VxT\STM32F412VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Tube_Cutter_F412VxT.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -11,7 +11,7 @@ double circumference 		= 3.14159265359;	// circumference of the tube, in inches
 /* SERVO PARAMETERS */
 uint32_t CCR_MIN 				= 1125;				// number of ticks associated with 0deg
 uint32_t CCR_MAX 				= 5625;				// number of ticks associated with 360deg
-volatile uint32_t *CCR 		= &(TIM2->CCR2);	// timer selection for PWM
+volatile uint32_t *CCR 		= &(TIM5->CCR1);	// timer selection for PWM
 TIM_HandleTypeDef *PWM_TIM  = &htim5;
 uint32_t PWM_TIM_CH			= TIM_CHANNEL_1;
 TIM_HandleTypeDef *Lock_TIM 	= &htim2;			// timer selection for lockout

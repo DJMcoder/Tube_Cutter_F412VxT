@@ -10,7 +10,7 @@
 #include "main.h"
 
 #define BUTTON_TIMER &htim3
-#define NUM_BUTTONS 3
+#define NUM_BUTTONS 1
 Button buttons[] = {
 		//{ Port: TUBE_SELECT_GPIO_Port, Pin: TUBE_SELECT_Pin},
 		//{ Port: RESET_GPIO_Port,  Pin: RESET_UP_Pin},
@@ -35,14 +35,14 @@ void Button_Debounced(uint16_t Pin, GPIO_PinState state) {
 	switch (button_stage) {
 		case 0:
 			if (Pin == B1_Pin) {
-				HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
+				//HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, GPIO_PIN_RESET);
+				//HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
 				PCNC_Go_To_Origin(cutter);
 			}
 			break;
 		case 1:
 			if (Pin == B1_Pin) {
-				HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
+				//HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
 				PCNC_Begin_Cut(cutter);
 			}
 			/*

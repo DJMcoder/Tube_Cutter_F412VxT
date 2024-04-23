@@ -1,0 +1,12 @@
+../Core/Src/cutter.c:31:6:PCNC_Final_State	1
+../Core/Src/cutter.c:41:6:PCNC_Enable_Servo	1
+../Core/Src/cutter.c:45:6:PCNC_Go_To_Origin	1
+../Core/Src/cutter.c:51:6:PCNC_Startup	1
+../Core/Src/cutter.c:57:6:PCNC_Begin_Cut	1
+../Core/Src/cutter.c:67:6:PCNC_Execute_Next_Instruction	5
+../Core/Src/cutter.c:92:6:PCNC_Servo_Unlock	1
+../Core/Src/cutter.c:106:6:PCNC_Rotate_To_X	3
+../Core/Src/cutter.c:145:6:PCNC_Stepper_ISR	13
+../Core/Src/cutter.c:202:6:PCNC_Manual_Move_Y	1
+../Core/Src/cutter.c:215:6:PCNC_Translate_To_Y	1
+../Core/Src/cutter.c:228:20:PCNC_Get_Setup	1

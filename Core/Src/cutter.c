@@ -4,6 +4,7 @@
 #include "stm32f4xx_hal_conf.h"
 #include "stm32f4xx_it.h"
 #include "cutter.h"
+#include "cut_setup.h"
 #include "cut_code.h"
 
 /*
@@ -29,13 +30,9 @@
  * Indicate that the PCNC has finished the cut
  */
 void PCNC_Final_State(struct PCNC_Setup *setup) {
-	HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(DONE_LED_GPIO_Port, DONE_LED_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(RUN_LED_GPIO_Port, RUN_LED_Pin, GPIO_PIN_RESET);
 	HAL_TIM_Base_Stop_IT(&htim7);
-//	__disable_irq();
-	while(1==1) {
-		__NOP();
-	}
 }
 
 void PCNC_Enable_Servo(struct PCNC_Setup *setup) {
@@ -225,7 +222,7 @@ void PCNC_Translate_To_Y(struct PCNC_Setup *setup, double y) {
 /**
  * Creates a setup object from constants
  */
-struct PCNC_Setup* PCNC_Get_Setup() {
+struct PCNC_Setup* PCNC_Get_Setup(Cut_Code code) {
 	struct PCNC_Setup *setup = malloc(sizeof(struct PCNC_Setup));
 	struct PCNC_Servo_Setup *servo_setup = malloc(sizeof(struct PCNC_Servo_Setup));
 	struct PCNC_Stepper_Setup *stepper_setup = malloc(sizeof(struct PCNC_Stepper_Setup));
@@ -234,8 +231,8 @@ struct PCNC_Setup* PCNC_Get_Setup() {
 	setup->Servo 		 			= servo_setup;
 	setup->Stepper 					= stepper_setup;
 	setup->cur_instruction 			= 0;
-	setup->instructions_length 		= num_instructions;
-	setup->instructions 			= cut_instructions;
+	setup->instructions_length 		= code.length;
+	setup->instructions 			= code.code;
 	setup->accepting_instructions	= 0;
 
 	// servo setup
@@ -247,7 +244,7 @@ struct PCNC_Setup* PCNC_Get_Setup() {
 	setup->Servo->Lock				= 0;
 	setup->Servo->Lock_Buffer   	= Lock_Buffer;
 	setup->Servo->Lock_Multiplier 	= Lock_Multiplier;
-	setup->Servo->circumference 	= circumference;
+	setup->Servo->circumference 	= code.circumference;
 	setup->Servo->Lock_TIM			= Lock_TIM;
 
 	// stepper setup

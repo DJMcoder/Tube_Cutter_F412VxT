@@ -59,6 +59,7 @@ void EXTI9_5_IRQHandler(void);
 void TIM2_IRQHandler(void);
 void TIM3_IRQHandler(void);
 void TIM4_IRQHandler(void);
+void EXTI15_10_IRQHandler(void);
 void TIM7_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 

@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -26,6 +27,7 @@
 #include "cutter.h"
 #include "buttons.h"
 #include "cut_code.h"
+#include "adafruit_alphanum4.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +49,8 @@
 
 /* USER CODE BEGIN PV */
 struct PCNC_Setup *cutter;
+uint32_t cur_code;
+Adafruit_AlphaNum4 *disp;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,7 +61,10 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+HAL_StatusTypeDef disp_code() {
+  Adafruit_AlphaNum4_load_text(disp, codes[cur_code].name);
+  return Adafruit_AlphaNum4_write_display(disp);
+}
 /* USER CODE END 0 */
 
 /**
@@ -94,9 +101,22 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM7_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  cutter = PCNC_Get_Setup();
-  PCNC_Startup(cutter);
+
+  HAL_GPIO_WritePin(SEL_LED_GPIO_Port, SEL_LED_Pin, GPIO_PIN_SET);
+
+
+  disp = Adafruit_AlphaNum4_Init(ALPHANUM4_DEFAULT_ADDR, &hi2c1);
+
+  if (disp == NULL) {
+      Error_Handler();
+  }
+
+  cur_code = 0;
+  disp_code();
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,6 +126,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
@@ -171,7 +192,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  Debounce_Buttons();
   }
   else if (htim == &htim7) {
-	  HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
+	  HAL_GPIO_TogglePin(RUN_LED_GPIO_Port, RUN_LED_Pin);
   }
 }
 /* USER CODE END 4 */
@@ -185,8 +206,12 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
+  HAL_GPIO_WritePin(ERROR_LED_GPIO_Port, ERROR_LED_Pin, GPIO_PIN_SET);
   while (1)
   {
+      if (HAL_GPIO_ReadPin(RST_BTN_GPIO_Port, RST_BTN_Pin) == GPIO_PIN_RESET) {
+          NVIC_SystemReset();
+      }
   }
   /* USER CODE END Error_Handler_Debug */
 }
